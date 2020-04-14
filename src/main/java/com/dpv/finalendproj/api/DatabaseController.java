@@ -6,6 +6,9 @@ import org.javatuples.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 @RequestMapping("api/v1/db")
 @RestController
 public class DatabaseController {
@@ -17,20 +20,18 @@ public class DatabaseController {
         this.databaseService = databaseService;
     }
 
-
-    public void getKValue() {
-        databaseService.getKValue();
+    @GetMapping("/getK")
+    public int getKValue() {
+        return databaseService.getKValue();
     }
 
-    @PostMapping
-    public void setKValue(@RequestBody int newK) {
+    @PutMapping("/setK")
+    public void setKValue(@Valid @NotNull @RequestBody int newK) {
         databaseService.setKValue(newK);
     }
 
     @PostMapping("/avgVelocity")
-    public double getAverageVelocity(@RequestBody QueryFormat qf) {
+    public double getAverageVelocity(@Valid @NotNull @RequestBody QueryFormat qf) {
         return databaseService.getAverageVelocity(qf);
-        /*return databaseService.getAverageVelocity(new QueryFormat(
-                (double) 1000,1.3, 3.0,1.6, 3.0));*/
     }
 }

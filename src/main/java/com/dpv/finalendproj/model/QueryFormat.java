@@ -3,9 +3,12 @@ package com.dpv.finalendproj.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.javatuples.Pair;
 
-public class QueryFormat {
-    final double timestamp;
+import javax.validation.constraints.NotNull;
 
+public class QueryFormat {
+    @NotNull
+    final double timestamp;
+    @NotNull
     final Pair<Pair<Double, Double>, Pair<Double, Double>> area;
 
     public QueryFormat(@JsonProperty("timestamp") Double timestamp,

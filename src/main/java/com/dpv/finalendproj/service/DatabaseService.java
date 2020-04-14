@@ -16,8 +16,8 @@ public class DatabaseService {
         this.databaseDao = databaseDao;
     }
 
-    public void getKValue() {
-        databaseDao.getKValue();
+    public int getKValue() {
+        return databaseDao.getKValue();
     }
 
     public void setKValue(int newK) {
