@@ -150,4 +150,8 @@ public class BST {
     Node getRelevantSubTree (Pair<Double, Double> yRange){
         return root.getNodeInRange(yRange);
     }
+
+    protected int getNumOfVehicles() {
+        return this.root.xList.size();
+    }
 }

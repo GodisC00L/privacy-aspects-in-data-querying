@@ -17,4 +17,6 @@ public interface DatabaseDao {
     double getMaxX();
 
     double getMaxY();
+
+    int getNumOfVehicles(double timestamp);
 }

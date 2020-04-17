@@ -20,12 +20,28 @@ public class DatabaseService {
         return databaseDao.getKValue();
     }
 
-    public void setKValue(int newK) {
-        databaseDao.setKValue(newK);
+    public int setKValue(int newK) {
+        return databaseDao.setKValue(newK);
     }
 
     public double getAverageVelocity(QueryFormat qf) {
         return databaseDao.getAverageVelocity(qf);
     }
+
+    public double getMinX() {
+        return databaseDao.getMinX();
+    }
+
+    public double getMinY() {
+        return databaseDao.getMinY();
+    }
+
+    public double getMaxX() {
+        return databaseDao.getMaxX();
+    }
+    public double getMaxY() {
+        return databaseDao.getMaxY();
+    }
+    public int getNumOfVehicles(double timestamp) {return databaseDao.getNumOfVehicles(timestamp);}
 
 }

@@ -47,11 +47,10 @@ public class DatabaseDataAccessService implements DatabaseDao {
     public int setKValue(int newK) {
         if(newK > 0) {
             db.setK(newK);
-            return 1;
         } else {
             logger.warn("New K value is less then 0!");
-            return 0;
         }
+        return db.getK();
     }
 
     @Override
@@ -72,6 +71,11 @@ public class DatabaseDataAccessService implements DatabaseDao {
     @Override
     public double getMaxY() {
         return db.getMax_Y();
+    }
+
+    @Override
+    public int getNumOfVehicles(double timestamp) {
+        return db.getNumOfVehicles(timestamp);
     }
 
     boolean isInRange(Pair<Pair<Double, Double>, Pair<Double, Double>> area) {

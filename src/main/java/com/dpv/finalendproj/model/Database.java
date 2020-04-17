@@ -181,4 +181,8 @@ public class Database {
         return (target - xList.get(start).x) < (xList.get(end).x - target) ? start : end;
     }
 
+    public int getNumOfVehicles(double timestamp) {
+        return db.get(timestamp).getNumOfVehicles();
+    }
+
 }
