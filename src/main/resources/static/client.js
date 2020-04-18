@@ -38,7 +38,7 @@ const setKVal = (newK) => {
     })
         .then((res) => {
             k = res;
-            alert("K changed to: " + k);
+            $("#kVal").text(k);
         })
         .catch((err) => {
             console.error(err);
@@ -56,12 +56,21 @@ const getAvgVelocity = (dataBody) => {
 };
 
 const getKVal = () => {
-    $.get("/api/v1/db/getK").then((res) => k = res);
+    $.get("/api/v1/db/getK").then((res) => {
+        k = res;
+        $("#kVal").text(k);
+        return res;
+    });
 };
 
 const getMinMaxValues = () => {
     $.get("/api/v1/db/getMinMaxValues").then((res) => {
         MIN_MAX_VALUES = res;
+        $("#minX").text(MIN_MAX_VALUES.minX);
+        $("#maxX").text(MIN_MAX_VALUES.maxX);
+        $("#minY").text(MIN_MAX_VALUES.minY);
+        $("#maxY").text(MIN_MAX_VALUES.maxY);
+        return res;
     });
 };
 

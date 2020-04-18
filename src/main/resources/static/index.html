@@ -22,22 +22,30 @@
     <style>
         h1 {text-align: center;}
         p {text-align: center;}
+        .d-inline-block{
+            text-align: center;
+            padding: 0;
+            width: 500px;
+        }
     </style>
 </head>
-<body>
-
-
+<body onload="onLoadFun()">
 
     <div class="container">
         <h1>Welcome!</h1>
-        <!--<div id="serverInfo">
+        <div id="serverInfo">
             <p>
                 Server Info:
                 <br>
-                =============
+                =====================
+                <br>
+                K Value: <span id="kVal">-1</span><br>
+                Min X: <span id="minX">-1</span> Max X: <span id="maxX">-1</span><br>
+                Min Y: <span id="minY">-1</span> Max Y: <span id="maxY">-1</span><br>
+                =====================
                 <br>
             </p>
-        </div>-->
+        </div>
         <form>
             <div class="form-group">
                 <label for="timestamp">Timestamp</label>
@@ -53,6 +61,7 @@
             </div>
             <div>
                 <button id="attack" type="button" class="btn btn-primary">Attack</button>
+                <h5 class="d-inline-block" id="attackAns"></h5>
             </div>
             <br>
             <br>
@@ -67,7 +76,14 @@
     </div>
 
     <script>
-        getMinMaxValues();
+        const onLoadFun = () => {
+
+            Promise.all([
+                getKVal(),
+                getMinMaxValues()
+            ]);
+
+        };
 
         document.getElementById("attack").addEventListener("click", () => {
             const timestamp = parseFloat($("#timestamp").val());
@@ -77,7 +93,7 @@
             console.time("singleTargetAttack2D");
             singleTargetAttack2D(timestamp, x, y).then((res) => {
                 console.timeEnd("singleTargetAttack2D");
-                alert("Velocity is: " + res.avgVelocity);
+                $("#attackAns").text("Vehicle Velocity: " + res.avgVelocity);
             })
         });
         document.getElementById("setKBtn").addEventListener("click", () => {
