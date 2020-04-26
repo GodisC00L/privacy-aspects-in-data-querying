@@ -151,7 +151,7 @@ public class Database {
     /**
      * Find the index of the closest lower value to target for upper bound
      * and index of the closest highest value to target for lower bound
-     * @param: double target, boolean upper
+     * @param target, boolean upper
      * @return index of closest lower value
      */
     private int closestNumber(List<DataFormat> xList,double target, boolean upper) {
@@ -183,6 +183,52 @@ public class Database {
 
     public int getNumOfVehicles(double timestamp) {
         return db.get(timestamp).getNumOfVehicles();
+    }
+
+    /**
+     * Finds and returns the maximum velocity in a given range on a given timestamp
+     * @param timestamp
+     * @param xRange
+     * @return maxVelocity
+     */
+    public double getMaxVelocityForRange(double timestamp, Pair<Double, Double> xRange) {
+        double res = -1;
+        Node relevantYTreeRoot = db.get(timestamp).getRoot();
+        List<DataFormat> xList = relevantYTreeRoot.getxList();
+        Pair<Double, Double> xTreeLimits = new Pair<>(xList.get(0).x, xList.get(xList.size() - 1).x);
+        if(isInRange(xTreeLimits, xRange.getValue0()) && isInRange(xTreeLimits, xRange.getValue1())) {
+            Pair<Integer, Integer> subXListIndexes = getSubXList(xRange, xList);
+
+            for(int i = subXListIndexes.getValue0(); i <= subXListIndexes.getValue1(); i++){
+                if(res < xList.get(i).getVelocity()) {
+                    res = xList.get(i).getVelocity();
+                }
+            }
+        }
+        return res;
+    }
+
+    /**
+     * Finds and returns the minimum velocity in a given range on a given timestamp
+     * @param timestamp
+     * @param xRange
+     * @return minVelocity
+     */
+    public double getMinVelocityForRange(double timestamp, Pair<Double, Double> xRange) {
+        double res = Double.MAX_VALUE;
+        Node relevantYTreeRoot = db.get(timestamp).getRoot();
+        List<DataFormat> xList = relevantYTreeRoot.getxList();
+        Pair<Double, Double> xTreeLimits = new Pair<>(xList.get(0).x, xList.get(xList.size() - 1).x);
+        if(isInRange(xTreeLimits, xRange.getValue0()) && isInRange(xTreeLimits, xRange.getValue1())) {
+            Pair<Integer, Integer> subXListIndexes = getSubXList(xRange, xList);
+
+            for(int i = subXListIndexes.getValue0(); i <= subXListIndexes.getValue1(); i++){
+                if(res > xList.get(i).getVelocity()) {
+                    res = xList.get(i).getVelocity();
+                }
+            }
+        }
+        return res;
     }
 
 }

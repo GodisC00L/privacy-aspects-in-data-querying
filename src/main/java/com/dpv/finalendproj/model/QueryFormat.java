@@ -29,4 +29,16 @@ public class QueryFormat {
     public Pair<Pair<Double, Double>, Pair<Double, Double>> getArea() {
         return area;
     }
+
+    public Pair<Double, Double> getXRange() {
+        return new Pair<>(area.getValue0().getValue0(), area.getValue1().getValue0());
+    }
+
+    @Override
+    public String toString() {
+        return "QueryFormat{" +
+                "timestamp=" + timestamp +
+                ", area=" + area +
+                '}';
+    }
 }

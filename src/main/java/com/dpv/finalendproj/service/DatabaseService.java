@@ -44,4 +44,11 @@ public class DatabaseService {
     }
     public int getNumOfVehicles(double timestamp) {return databaseDao.getNumOfVehicles(timestamp);}
 
+    public double getMaxVelocityForRange(QueryFormat qf){
+        return databaseDao.getMaxVelocityForRange(qf.getTimestamp(), qf.getXRange());
+    }
+
+    public double getMinVelocityForRange(QueryFormat qf){
+        return databaseDao.getMinVelocityForRange(qf.getTimestamp(), qf.getXRange());
+    }
 }

@@ -1,6 +1,7 @@
 package com.dpv.finalendproj.dao;
 
 import com.dpv.finalendproj.model.QueryFormat;
+import org.javatuples.Pair;
 
 public interface DatabaseDao {
 
@@ -19,4 +20,8 @@ public interface DatabaseDao {
     double getMaxY();
 
     int getNumOfVehicles(double timestamp);
+
+    double getMaxVelocityForRange(double timestamp, Pair<Double, Double> xRange);
+
+    double getMinVelocityForRange(double timestamp, Pair<Double, Double> xRange);
 }

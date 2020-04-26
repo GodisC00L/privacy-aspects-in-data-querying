@@ -16,6 +16,10 @@ public class BST {
 
     }
 
+    public Node getRoot() {
+        return root;
+    }
+
     public void setMaxY(double maxY) {
         this.maxY = maxY;
     }

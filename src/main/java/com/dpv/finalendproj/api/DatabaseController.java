@@ -62,4 +62,16 @@ public class DatabaseController {
     public int getNumOfVehicles(@Valid @NotNull @RequestBody double timestamp) {
         return databaseService.getNumOfVehicles(timestamp);
     }
+
+    @PostMapping("/getMaxVelocity")
+    public double getMaxVelocity(@Valid @NotNull @RequestBody QueryFormat qf) {
+        logger.info(qf.toString());
+        return databaseService.getMaxVelocityForRange(qf);
+    }
+
+    @PostMapping("/getMinVelocity")
+    public double getMinVelocity(@Valid @NotNull @RequestBody QueryFormat qf) {
+        logger.info(qf.toString());
+        return databaseService.getMinVelocityForRange(qf);
+    }
 }
