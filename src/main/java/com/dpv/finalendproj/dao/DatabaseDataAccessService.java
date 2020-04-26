@@ -78,6 +78,16 @@ public class DatabaseDataAccessService implements DatabaseDao {
         return db.getNumOfVehicles(timestamp);
     }
 
+    @Override
+    public double getMaxVelocityForRange(double timestamp, Pair<Double, Double> xRange) {
+        return db.getMaxVelocityForRange(timestamp, xRange);
+    }
+
+    @Override
+    public double getMinVelocityForRange(double timestamp, Pair<Double, Double> xRange) {
+        return db.getMinVelocityForRange(timestamp, xRange);
+    }
+
     boolean isInRange(Pair<Pair<Double, Double>, Pair<Double, Double>> area) {
         return isInRangeX(area.getValue0().getValue0()) && isInRangeY(area.getValue0().getValue1())
                 && isInRangeX(area.getValue1().getValue0()) && isInRangeY(area.getValue1().getValue1());
