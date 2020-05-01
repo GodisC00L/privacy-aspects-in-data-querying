@@ -118,11 +118,15 @@ public class Database {
         BST relevantYBst = db.get(timestamp);
         Pair<Double, Double> xRange = ranges.getValue0();
         Pair<Double, Double> yRange = ranges.getValue1();
+        Pair<Double, Double> yBSTRange = new Pair<>(relevantYBst.getMinY(), relevantYBst.getMaxY());
+        int counter = 0;
+
+        if(!isInRange(yBSTRange, yRange.getValue0()) || !isInRange(yBSTRange, yRange.getValue1()))
+            return new Pair<>(-1.0, counter);
 
         Node relevantSubTree = relevantYBst.getRelevantSubTree(yRange);
         Pair<Integer, Integer> subXListIndexes = getSubXList(xRange, relevantSubTree.xList);
 
-        int counter = 0;
         double avgVelocity = 0;
 
         for (int i = subXListIndexes.getValue0(); i <= subXListIndexes.getValue1(); i++) {
