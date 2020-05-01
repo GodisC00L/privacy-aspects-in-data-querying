@@ -26,22 +26,26 @@ public class DatabaseController {
         this.databaseService = databaseService;
     }
 
+    @CrossOrigin
     @GetMapping("/getK")
     public int getKValue() {
         return databaseService.getKValue();
     }
 
+    @CrossOrigin
     @PutMapping("/setK")
     public int setKValue(@Valid @NotNull @RequestBody int newK) {
         return databaseService.setKValue(newK);
     }
 
+    @CrossOrigin
     @PostMapping("/avgVelocity")
     public double getAverageVelocity(@Valid @NotNull @RequestBody QueryFormat qf) {
         logger.info(qf.toString());
         return databaseService.getAverageVelocity(qf);
     }
 
+    @CrossOrigin
     @GetMapping(path = "/getMinMaxValues", produces = MediaType.APPLICATION_JSON_VALUE)
     public HashMap<String, Object> getMinMaxValues() {
         double minX = databaseService.getMinX();
@@ -58,17 +62,20 @@ public class DatabaseController {
         return map;
     }
 
+    @CrossOrigin
     @PostMapping("/numOfVehicles")
     public int getNumOfVehicles(@Valid @NotNull @RequestBody double timestamp) {
         return databaseService.getNumOfVehicles(timestamp);
     }
 
+    @CrossOrigin
     @PostMapping("/getMaxVelocity")
     public double getMaxVelocity(@Valid @NotNull @RequestBody QueryFormat qf) {
         logger.info(qf.toString());
         return databaseService.getMaxVelocityForRange(qf);
     }
 
+    @CrossOrigin
     @PostMapping("/getMinVelocity")
     public double getMinVelocity(@Valid @NotNull @RequestBody QueryFormat qf) {
         logger.info(qf.toString());
