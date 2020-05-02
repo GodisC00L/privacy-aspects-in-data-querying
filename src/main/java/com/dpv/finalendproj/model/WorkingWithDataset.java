@@ -1,9 +1,6 @@
 package com.dpv.finalendproj.model;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.Scanner;
@@ -13,6 +10,7 @@ import static com.dpv.finalendproj.model.Util.printProgressBar;
 class WorkingWithDataset {
     private Scanner dataSetScanner;
     private PrintWriter targetList;
+    private FileInputStream datasetInputStream;
     private final long dataSetSize;
 
     private final String dataSetPath = "src/main/resources/fixedVelocities_40_MB.txt";
@@ -20,7 +18,7 @@ class WorkingWithDataset {
 
     WorkingWithDataset() throws FileNotFoundException {
         File dataSetFile = new File(dataSetPath);
-        FileInputStream datasetInputStream = new FileInputStream(dataSetFile);
+        datasetInputStream = new FileInputStream(dataSetFile);
         dataSetSize = dataSetFile.length();
 
         if(!(new File(dataTargetListPath)).exists()) {
@@ -29,7 +27,7 @@ class WorkingWithDataset {
         dataSetScanner = new Scanner(datasetInputStream);
     }
 
-    void fillDb(Database db) {
+    void fillDb(Database db) throws IOException {
         String[] splitted;
         DataFormat df;
         DecimalFormat df2 = new DecimalFormat("#.##");
@@ -60,6 +58,7 @@ class WorkingWithDataset {
             printProgressBar(percent);
         }
         dataSetScanner.close();
+        datasetInputStream.close();
         if(targetList != null)
             targetList.close();
         db.balanceBST();

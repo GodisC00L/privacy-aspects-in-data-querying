@@ -2,7 +2,7 @@ package com.dpv.finalendproj.model;
 
 import org.javatuples.Pair;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,7 +28,6 @@ public class Database {
 
     public void setK(int k) {
         this.k = k;
-        System.out.println(this.k);
     }
 
     public double getMin_X() {
@@ -52,10 +51,9 @@ public class Database {
         try {
             WorkingWithDataset ds = new WorkingWithDataset();
             ds.fillDb(this);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(k);
     }
 
     void addToDb(DataFormat df) {
@@ -121,8 +119,13 @@ public class Database {
         Pair<Double, Double> yBSTRange = new Pair<>(relevantYBst.getMinY(), relevantYBst.getMaxY());
         int counter = 0;
 
-        if(!isInRange(yBSTRange, yRange.getValue0()) || !isInRange(yBSTRange, yRange.getValue1()))
-            return new Pair<>(-1.0, counter);
+        if(!isInRange(yBSTRange, yRange.getValue0())) {
+            yRange = yRange.setAt0(yBSTRange.getValue0());
+        }
+
+        if(!isInRange(yBSTRange, yRange.getValue1())) {
+            yRange = yRange.setAt1(yBSTRange.getValue1());
+        }
 
         Node relevantSubTree = relevantYBst.getRelevantSubTree(yRange);
         Pair<Integer, Integer> subXListIndexes = getSubXList(xRange, relevantSubTree.xList);
