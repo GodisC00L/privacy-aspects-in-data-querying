@@ -13,7 +13,8 @@ public class BST {
 
     public BST(DataFormat df) {
         this.root = new Node(df);
-
+        this.minY = df.y;
+        this.maxY = minY;
     }
 
     public Node getRoot() {

@@ -18,6 +18,15 @@ public class DataFormat implements Comparable<DataFormat>{
         this.sumToIndex = velocity;
     }
 
+    public DataFormat(DataFormat dataFormat) {
+        this.carId = dataFormat.carId;
+        this.timestamp = dataFormat.timestamp;
+        this.x = dataFormat.x;
+        this.y = dataFormat.y;
+        this.velocity = dataFormat.velocity;
+        this.sumToIndex = dataFormat.velocity;
+    }
+
     public String getCarId() {
         return carId;
     }

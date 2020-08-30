@@ -2,7 +2,12 @@ package com.dpv.finalendproj.model;
 
 import org.javatuples.Pair;
 
+import javax.xml.crypto.Data;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -50,7 +55,9 @@ public class Database {
         this.db = new HashMap<>();
         try {
             WorkingWithDataset ds = new WorkingWithDataset();
+            //ds.cutFile(18000, 22000);
             ds.fillDb(this);
+            //attackAllMaxVel();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -238,4 +245,68 @@ public class Database {
         return res;
     }
 
+
+    /* From 19750 - 19800 */
+    private void attackAllMaxVel() throws FileNotFoundException {
+        int totalSize = db.size() * 13;
+        int num = 0;
+        System.out.println("\nattackAllMaxVel\n");
+
+        for (int i = 3; i <= 15; i++) {
+            File outFile = new File("src/main/resources/MaxVel/maxVel_K_" + i + ".csv");
+            PrintWriter outFileWriter = new PrintWriter(outFile);
+            outFileWriter.write("Timestamp,X,Velocity," + i +"\n");
+            setK(i);
+
+            for (BST yTree: db.values()) {
+                int precent = (int)((++num * 100)/totalSize);
+                printProgressBar(precent);
+
+                List<DataFormat> xList = yTree.getRoot().xList;
+                int xListSize = xList.size();
+                double currentTimestamp = xList.get(0).timestamp;
+
+
+                DataFormat xTarget = xList.get(0);
+                DataFormat tempTarget = xTarget;
+
+                if (i > xListSize){
+                    outFileWriter.write(currentTimestamp + "," + xTarget.x + ",-1\n");
+                    continue;
+                }
+
+                double maxVel = getMaxVelocityForRange(currentTimestamp,
+                        new Pair<>(xTarget.x, xList.get(i - 1).x));
+                List<DataFormat> foundVelocity = new ArrayList<>();
+                for (int j = 1; j < xListSize; j++) {
+                    if(j >= xListSize - i) {
+                        if(!foundVelocity.contains(xList.get(j))) {
+                            outFileWriter.write(currentTimestamp + "," + xList.get(j).x + ",-1\n");
+                        }
+                        continue;
+                    }
+                    xTarget = tempTarget;
+                    tempTarget = xList.get(j);
+
+                    double maxVelTemp = getMaxVelocityForRange(currentTimestamp,
+                            new Pair<>(tempTarget.x, xList.get(j + i - 1).x));
+
+                    if(maxVelTemp > maxVel) {
+                        foundVelocity.add(new DataFormat(xList.get(j + i - 1)));
+                        outFileWriter.write(currentTimestamp + "," + xList.get(j + i - 1).x + "," + maxVelTemp + "\n");
+                        outFileWriter.write(currentTimestamp + "," + xTarget.x + ",-1\n");
+                    } else if(maxVelTemp < maxVel) {
+                        if(!foundVelocity.contains(xTarget)) {
+                            foundVelocity.add(new DataFormat(xTarget));
+                            outFileWriter.write(currentTimestamp + "," + xTarget.x + "," + maxVel + "\n");
+                        }
+                    } else if(!foundVelocity.contains(xTarget)) {
+                        outFileWriter.write(currentTimestamp + "," + xTarget.x + ",-1\n");
+                    }
+                    maxVel = maxVelTemp;
+                }
+            }
+            outFileWriter.close();
+        }
+    }
 }

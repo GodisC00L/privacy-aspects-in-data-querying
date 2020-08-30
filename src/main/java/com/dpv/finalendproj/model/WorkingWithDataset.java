@@ -14,6 +14,8 @@ class WorkingWithDataset {
     private final long dataSetSize;
 
     private final String dataSetPath = "src/main/resources/fixedVelocities_40_MB.txt";
+    //private final String dataSetPath = "src/main/resources/fixedVelocities_18000_22000.txt";
+    //private final String dataSetPath = "../../SegalProjectV2/Server/koln.tr";
     private final String dataTargetListPath = "src/main/resources/fixedVelocities_40_MB_target.csv";
 
     WorkingWithDataset() throws FileNotFoundException {
@@ -62,6 +64,32 @@ class WorkingWithDataset {
         if(targetList != null)
             targetList.close();
         db.balanceBST();
+    }
+
+    public void cutFile(int fromTs, int toTs) throws FileNotFoundException {
+        String inputLine;
+        String[] splited;
+        PrintWriter writer = new PrintWriter("src/main/resources/fixedVelocities_" + fromTs + "_" + toTs +".txt");
+        System.out.println("\nCutting files\n");
+        int size = toTs - fromTs;
+        while(true) {
+            inputLine = dataSetScanner.nextLine();
+            splited = inputLine.split(" ");
+            if(Double.parseDouble(splited[0]) == fromTs)
+                break;
+        }
+
+        while(dataSetScanner.hasNextLine()) {
+            inputLine = dataSetScanner.nextLine();
+            splited = inputLine.split(" ");
+            double ts = Double.parseDouble(splited[0]);
+            if(ts == toTs+1)
+                break;
+            writer.println(inputLine);
+            int precent = (int)((ts-fromTs)*100 / size);
+            printProgressBar(precent);
+        }
+        writer.close();
     }
 
     private void writeToTargetList(DataFormat df){

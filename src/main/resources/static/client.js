@@ -375,3 +375,5 @@ const isEvenPossible = (dataBody) => {
 const isInRangeX = (x1, x2) => {
     return (x1 >= MIN_MAX_VALUES.minX && x2 <= MIN_MAX_VALUES.maxX);
 };
+
+
